@@ -5,7 +5,7 @@ class M_city extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('M_cities','M_provinces','M_groupusers')); 
+        //$this->load->model(array('M_cities','M_provinces','M_groupusers')); 
         $this->paging->is_session_set();
     }
 
@@ -15,7 +15,7 @@ class M_city extends CI_Controller
         if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_city'],'Read'))
         {
             $params = array(
-                'order' => array('Created' => 'ASC')
+                'order' => array('Created' => 'ASC'),
             );
 
             $datapages = $this->M_cities->get_list(null, null, $params);
@@ -34,11 +34,7 @@ class M_city extends CI_Controller
         if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_city'],'Write'))
         {
             $model = $this->M_cities->new_object(); 
-            $modal_province = $this->M_provinces->get_list();
-            $data_modal = array(
-                'modal_province' => $modal_province
-            );
-            $data =  $this->paging->set_data_page_add($model,null, $data_modal);
+            $data =  $this->paging->set_data_page_add($model);
             load_view('m_city/add', $data);  
         }
         else
@@ -68,10 +64,7 @@ class M_city extends CI_Controller
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $modal_province = $this->M_provinces->get_list();
-            $data_modal = array(
-                'modal_province' => $modal_province
-            );
-            $data =  $this->paging->set_data_page_add($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_add($model);
             load_view('m_city/add', $data);   
         }
         else{
@@ -90,10 +83,7 @@ class M_city extends CI_Controller
         {
             $model = $this->M_cities->get($id);
             $modal_province = $this->M_provinces->get_list();
-            $data_modal = array(
-                'modal_province' => $modal_province
-            );
-            $data =  $this->paging->set_data_page_edit($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_edit($model);
             load_view('m_city/edit', $data);  
         }
         else
@@ -127,10 +117,7 @@ class M_city extends CI_Controller
             $this->session->set_flashdata('edit_warning_msg',$validate);
 
             $modal_province = $this->M_provinces->get_list();
-            $data_modal = array(
-                'modal_province' => $modal_province
-            );
-            $data =  $this->paging->set_data_page_edit($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_edit($model);
             load_view('m_city/edit', $data);   
         }
         else
@@ -159,7 +146,7 @@ class M_city extends CI_Controller
                 echo json_encode(delete_status($deletemsg));
             }
         } else {
-            echo json_encode(delete_status(FALSE, TRUE));
+            echo json_encode(delete_status("", FALSE, TRUE));
         }
     }
     

@@ -88,7 +88,7 @@
                     <tbody>
                     <?php
                       //print_r($modeldetail);
-                        foreach ($datamodal['modal_subcity'] as $value)
+                        foreach ($this->M_subcities->get_list() as $value)
                         {
                       ?>
                           <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>

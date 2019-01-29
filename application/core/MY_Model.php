@@ -171,6 +171,7 @@ class MY_Model extends CI_Model {
 		$select = (isset($params['select']) ? $params['select'] : FALSE);		// other fields to append in select clause
 		$where_not_in = (isset($params['where_not_in']) ? $params['where_not_in'] : FALSE);			// add custom WHERE string
 		$where = (isset($params['where']) ? $params['where'] : FALSE);	
+		$wherestr = (isset($params['wherestr']) ? $params['wherestr'] : FALSE);
 		$order = (isset($params['order']) ? $params['order'] : FALSE);			// add custom WHERE string
 		
 		if ($this->_is_caching)
@@ -215,6 +216,9 @@ class MY_Model extends CI_Model {
 			}
 		}
 
+		if ($wherestr)
+			$this->db->where($wherestr);
+		
 		if ($order){
 			//$this->db->order_by($order_by);
 			foreach($order as $key => $value){
@@ -362,8 +366,11 @@ class MY_Model extends CI_Model {
 		{
 			// update (safe: update only changed fields)
 			$changes = $row->changes();
+			//echo json_encode($changes);
 			if ($changes)
 				$this->db->update($this->table, $changes, $row->pk());
+			
+			$new_id = $row->Id;
 		}
 		
 		// if new, update to assigned id
@@ -465,10 +472,10 @@ class MY_Model extends CI_Model {
 		foreach ($fields as $field)
 		{
 			$name = $field->name;
-			$row->$name = NULL;
+			$row->$name = null;
 		}
-		
 		return $row;
+		
 	}
 
 	/**
@@ -653,8 +660,12 @@ class Model_object {
 	public function __set($name, $value)
 	{
 		// field initialization (implement safe update support)
-		$this->$name = $value;
+		//if (!empty($value))
+			 $this->$name = $value;
+		//else 
+			//$this->$name = null;
 		if (!isset($this->_old[$name])) $this->_old[$name] = $value;
+		//else $this->_old[$name] = null;
 	}
 	
 	public function __call($name, $arguments)
@@ -694,14 +705,17 @@ class Model_object {
 						$field => $this->Id
 					)
 				);
-
-				$result = $CI->$model->get_list(null, null, $params);
-				if(isset($result))
-					return $result;
 				
-			} else {
-				return array();
+				$result = $CI->$model->get_list(null, null, $params);
+				if($result)
+					return $result;
+			// 	else
+			// 		return array();
+				
+			// } else {
+				// return array();
 			}
+			return array();
 		} else {
 			trigger_error('Call to undefined method '.__CLASS__.'::'.$name.'()', E_USER_ERROR);
 		}
@@ -766,7 +780,8 @@ class Model_object {
 		foreach ($reflect->getProperties(ReflectionProperty::IS_PUBLIC) as $prop)
 		{
 			$key = $prop->getName();
-			if (isset($this->_old[$key]) && $this->$key !== $this->_old[$key] || $this->_force_changes)
+			//if (isset($this->_old[$key]) && $this->$key !== $this->_old[$key] || $this->_force_changes)
+			if ($this->$key != $this->_old[$key] || $this->_force_changes)
 				$changes[$key] = $this->$key;
 		}
 		

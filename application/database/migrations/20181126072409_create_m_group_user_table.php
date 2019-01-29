@@ -41,7 +41,7 @@ class Migration_create_m_group_user_table extends CI_Migration {
 
             ));
             $this->dbforge->add_key('Id', TRUE);
-            $this->dbforge->create_table('m_groupusers');
+            $this->dbforge->create_table('m_groupusers', TRUE);
         }
     }
 

@@ -6,9 +6,7 @@ class M_province extends CI_Controller
     {
         parent::__construct();
         //$this->load->database('naturedisaster', TRUE);
-        $this->load->model(array('M_provinces','M_groupusers')); 
-        $this->load->library(array('paging', 'session','helpers'));
-        $this->load->helper('form');
+        //$this->load->model(array('M_provinces','M_groupusers')); 
         $this->paging->is_session_set();
     }
 
@@ -142,7 +140,7 @@ class M_province extends CI_Controller
                 echo json_encode(delete_status($deletemsg));
             }
         } else {
-            echo json_encode(delete_status(FALSE, TRUE));
+            echo json_encode(delete_status("", FALSE, TRUE));
         }
     }
     

@@ -67,6 +67,7 @@ $route['mgroupuser/edit/(:num)'] = 'm_groupuser/edit/$1';
 $route['mgroupuser/editsave'] = 'm_groupuser/editsave';
 $route['mgroupuser/delete'] = 'm_groupuser/delete';
 $route['mgroupuser/editrole/(:num)'] = 'm_groupuser/editrole/$1';
+$route['mgroupuser/editreportrole/(:num)'] = 'm_groupuser/editreportrole/$1';
 
 $route['muser'] = 'm_user';
 $route['muser/add'] = 'm_user/add';
@@ -79,29 +80,8 @@ $route['changePassword'] = 'm_user/changePassword';
 $route['saveChangePassword'] = 'm_user/saveNewPassword';
 $route['settings'] = 'm_user/setting';
 $route['savesettings'] = 'm_user/savesetting';
-
-
-$route['mkelas'] = 'm_kelas';
-$route['mkelas/add'] = 'm_kelas/add';
-$route['mkelas/addsave'] = 'm_kelas/addsave';
-$route['mkelas/edit/(:num)'] = 'm_kelas/edit/$1';
-$route['mkelas/editsave'] = 'm_kelas/editsave';
-$route['mkelas/delete/(:num)'] = 'm_kelas/delete/$1';
-
-$route['mschool'] = 'm_school';
-$route['mschool/add'] = 'm_school/add';
-$route['mschool/addsave'] = 'm_school/addsave';
-$route['mschool/edit/(:num)'] = 'm_school/edit/$1';
-$route['mschool/editsave'] = 'm_school/editsave';
-$route['mschool/delete/(:num)'] = 'm_school/delete/$1';
-
-$route['mschoolyear'] = 'm_schoolyear';
-$route['mschoolyear/add'] = 'm_schoolyear/add';
-$route['mschoolyear/addsave'] = 'm_schoolyear/addsave';
-$route['mschoolyear/edit/(:num)'] = 'm_schoolyear/edit/$1';
-$route['mschoolyear/editsave'] = 'm_schoolyear/editsave';
-$route['mschoolyear/delete/(:num)'] = 'm_schoolyear/delete/$1';
-$route['mschoolyear/activate/(:num)'] = 'm_schoolyear/activate/$1';
+$route['saveprofile'] = 'm_user/saveprofile';
+$route['profile'] = 'm_user/profile';
 
 $route['mprovince'] = 'm_province';
 $route['mprovince/add'] = 'm_province/add';
@@ -130,6 +110,86 @@ $route['mvillage/addsave'] = 'm_village/addsave';
 $route['mvillage/edit/(:num)'] = 'm_village/edit/$1';
 $route['mvillage/editsave'] = 'm_village/editsave';
 $route['mvillage/delete'] = 'm_village/delete';
+
+$route['mclass'] = 'm_class';
+$route['mclass/add'] = 'm_class/add';
+$route['mclass/addsave'] = 'm_class/addsave';
+$route['mclass/edit/(:num)'] = 'm_class/edit/$1';
+$route['mclass/editsave'] = 'm_class/editsave';
+$route['mclass/delete'] = 'm_class/delete';
+
+$route['mpeople'] = 'm_people';
+$route['mpeople/add'] = 'm_people/add';
+$route['mpeople/addsave'] = 'm_people/addsave';
+$route['mpeople/edit/(:num)'] = 'm_people/edit/$1';
+$route['mpeople/editsave'] = 'm_people/editsave';
+$route['mpeople/delete'] = 'm_people/delete';
+
+$route['mmember'] = 'm_member';
+$route['mmember/add'] = 'm_member/add';
+$route['mmember/addsave'] = 'm_member/addsave';
+$route['mmember/edit/(:num)'] = 'm_member/edit/$1';
+$route['mmember/editsave'] = 'm_member/editsave';
+$route['mmember/delete'] = 'm_member/delete';
+
+$route['mworker'] = 'm_worker';
+$route['mworker/add'] = 'm_worker/add';
+$route['mworker/addsave'] = 'm_worker/addsave';
+$route['mworker/edit/(:num)'] = 'm_worker/edit/$1';
+$route['mworker/editsave'] = 'm_worker/editsave';
+$route['mworker/delete'] = 'm_worker/delete';
+
+$route['minstance'] = 'm_instance';
+$route['minstance/add'] = 'm_instance/add';
+$route['minstance/addsave'] = 'm_instance/addsave';
+$route['minstance/next'] = 'm_instance/next';
+$route['minstance/edit/(:num)'] = 'm_instance/edit/$1';
+$route['minstance/editsave'] = 'm_instance/editsave';
+$route['minstance/delete'] = 'm_instance/delete';
+
+$route['mloan'] = 'm_loan';
+$route['mloan/add'] = 'm_loan/add';
+$route['mloan/addsave'] = 'm_loan/addsave';
+$route['mloan/edit/(:num)'] = 'm_loan/edit/$1';
+$route['mloan/editsave'] = 'm_loan/editsave';
+$route['mloan/delete'] = 'm_loan/delete';
+
+$route['tsubmission'] = 't_submission';
+$route['tsubmission/add'] = 't_submission/add';
+$route['tsubmission/addsave'] = 't_submission/addsave';
+$route['tsubmission/edit/(:num)'] = 't_submission/edit/$1';
+$route['tsubmission/editsave'] = 't_submission/editsave';
+$route['tsubmission/delete'] = 't_submission/delete';
+$route['tsubmission/upload_file/(:num)'] = 't_submission/upload_file/$1';
+$route['tsubmission/download_file/(:num)'] = 't_submission/download_file/$1';
+
+$route['mchartofaccount'] = 'm_chartofaccount';
+$route['mchartofaccount/add'] = 'm_chartofaccount/add';
+$route['mchartofaccount/addsave'] = 'm_chartofaccount/addsave';
+$route['mchartofaccount/edit/(:num)'] = 'm_chartofaccount/edit/$1';
+$route['mchartofaccount/editsave'] = 'm_chartofaccount/editsave';
+$route['mchartofaccount/delete'] = 'm_chartofaccount/delete';
+
+$route['tsubmissionpayment'] = 't_submissionpayment';
+$route['tsubmissionpayment/add'] = 't_submissionpayment/add';
+$route['tsubmissionpayment/addsave'] = 't_submissionpayment/addsave';
+$route['tsubmissionpayment/edit/(:num)'] = 't_submissionpayment/edit/$1';
+$route['tsubmissionpayment/editsave'] = 't_submissionpayment/editsave';
+$route['tsubmissionpayment/delete'] = 't_submissionpayment/delete';
+
+$route['mcompany'] = 'm_company';
+$route['mcompany/add'] = 'm_company/add';
+$route['mcompany/addsave'] = 'm_company/addsave';
+$route['mcompany/edit/(:num)'] = 'm_company/edit/$1';
+$route['mcompany/editsave'] = 'm_company/editsave';
+$route['mcompany/delete'] = 'm_company/delete';
+
+$route['report'] = 'reports';
+$route['report/submission_payment_receipt_pdf/(:num)'] = 'reports/submission_payment_receipt_pdf/$1';
+$route['report/submission_payment_detail_pdf'] = 'reports/submission_payment_detail_pdf';
+
+
+$route['mainsetup'] = 'm_form';
 
 //API
 $route['api/mdisaster']['GET'] = 'api_mdisaster/get_disaster';

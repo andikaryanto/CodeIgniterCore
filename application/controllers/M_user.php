@@ -7,9 +7,7 @@ class M_user extends CI_Controller
     {
         parent::__construct();
         //$this->load->database('natureuser', TRUE);
-        $this->load->model(array('M_users','M_groupusers', 'G_languages', 'G_colors', 'M_usersettings'));
-        $this->load->library(array('paging', 'session','helpers'));
-        $this->load->helper('form');
+        //$this->load->model(array('M_users','M_groupusers', 'G_languages', 'G_colors', 'M_usersettings'));
         $this->paging->is_session_set();
     }
 
@@ -102,8 +100,7 @@ class M_user extends CI_Controller
         if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_user'],'Write'))
         {
             
-            $edit = $this->M_users->get_data_by_id($id);
-            $model = $this->M_users->create_object($edit->Id, $edit->M_Groupuser_Id, $edit->GroupName, $edit->Username, $edit->Password, null, null, null, null);
+            $model = $this->M_users->get($id);
             $data =  $this->paging->set_data_page_edit($model);
             //echo json_encode($edit);
             load_view('m_user/edit', $data);   
@@ -122,12 +119,13 @@ class M_user extends CI_Controller
         $groupid    = $this->input->post('groupid');
         $groupname  = $this->input->post('groupname');
         $username   = $this->input->post('named');
-        $password   = $this->input->post('password');
 
-        $edit       = $this->M_users->get_data_by_id($userid);
-        $model      = $this->M_users->create_object($edit->Id, $groupid, $groupname, $username,  $password, $edit->IOn, $edit->IBy, null , null);
-        $oldmodel   = $this->M_users->create_object($edit->Id, $edit->M_Groupuser_Id, null, $edit->Username,  $edit->Password, $edit->IOn, $edit->IBy, $edit->UOn , $edit->UBy);
-        $modeltabel = $this->M_users->create_object_tabel($edit->Id, $groupid, $username, $password, $edit->IOn, $edit->IBy, null , null);
+        $model = $this->M_users->get($userid);
+        $oldmodel = clone $model;
+
+        $model->M_Groupuser_Id = $groupid;
+        $model->Username = $username;
+        $model->ModifiedBy = $_SESSION['userdata']['Username'];
 
         $validate   = $this->M_users->validate($model, $oldmodel);
  
@@ -139,11 +137,7 @@ class M_user extends CI_Controller
         }
         else
         {
-            $date = date("Y-m-d H:i:s");
-            $modeltabel['uon'] = $date;
-            $modeltabel['uby'] = $_SESSION['userdata']['Username'];
-
-            $this->M_users->edit_data($modeltabel);
+            $model->save();
             $successmsg = $this->paging->get_success_message();
             $this->session->set_flashdata('success_msg', $successmsg);
             redirect('muser');
@@ -172,10 +166,18 @@ class M_user extends CI_Controller
     }
 
     public function setting(){
-        $enums['languageenums'] =  $this->G_languages->get_list();
-        $enums['colorenums'] =  $this->G_colors->get_list();
-        $data = $this->paging->set_data_page_add(null, $enums);
-        load_view('m_user/settings',$data);
+        // $enums['languageenums'] =  $this->G_languages->get_list();
+        // $enums['colorenums'] =  $this->G_colors->get_list();
+        // $data = $this->paging->set_data_page_add(null, $enums);
+        load_view('m_user/settings');
+    }
+
+    public function profile(){
+        
+        $user = $this->M_users->get($_SESSION['userdata']['Id']);
+        $profile = $user->get_list_M_Userprofile()[0];
+        $data['model'] = $profile;
+        load_view('m_user/profile', $data);
     }
 
     public function activate($id)
@@ -249,6 +251,74 @@ class M_user extends CI_Controller
         replaceSession('languages', get_object_vars($languages));
         replaceSession('colors', get_object_vars($colors));
         redirect('settings');
+    }
+
+    public function saveprofile(){
+        $user = $this->M_users->get($_SESSION['userdata']['Id']);
+        $profile = $user->get_list_M_Userprofile()[0];
+
+
+        $completename = $this->input->post('completename');
+        $address = $this->input->post('address');
+        $phone = $this->input->post('phone');
+        $email = $this->input->post('email');
+        $aboutme = $this->input->post('aboutme');
+        $newphotoname="";
+        // echo json_encode($_FILES['file']['name']);
+
+        if(!empty($_FILES['file']['name'])){
+            $newphotoname = $this->upload_profile_pic($_FILES['file']);
+            unlink($profile->PhotoPath.$profile->PhotoName);
+        }
+
+        $profile->CompleteName = $completename;
+        $profile->Address = $address;
+        $profile->Phone = $phone;
+        $profile->Email = $email;
+        $profile->AboutMe = $aboutme;
+        if(!empty($_FILES['file']['name']))
+            $profile->PhotoName = $newphotoname;
+        $profile->save();
+        // echo json_encode($_FILES);
+
+        replaceSession('userprofile', get_object_vars($profile));
+        redirect('profile');
+    }
+
+    private function upload_profile_pic($files){
+        $config = userprofile_upload_config();
+        $this->load->library('upload', $config);
+        $date = date("YmdHis");
+
+        //$newName = $date."_".str_replace(".","_",preg_replace('/\s+/', '', $files['name']));
+        $newName = $date."_". $files['name'];
+            
+        $_FILES['file']['name']= $newName;
+        $_FILES['file']['type']= $files['type'];
+        $_FILES['file']['tmp_name']= $files['tmp_name'];
+        $_FILES['file']['error']= $files['error'];
+        $_FILES['file']['size']= $files['size'];
+
+        $config['file_name'] = $newName;
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload('file'))
+        {
+                $error = array('error' => $this->upload->display_errors());
+
+        }
+        else
+        {
+                // $this->upload->data();
+                // $submissionfiles = $this->T_submissionfiles->new_object();
+                // $submissionfiles->T_Submission_Id = $submissionid;
+                // $submissionfiles->FileName = $newName;
+                // $submissionfiles->FileType = $files['type'];
+                // $submissionfiles->Path = $config['upload_path'];
+                // $submissionfiles->CreatedBy = $_SESSION['userdata']['Username'];
+                // $submissionfiles->save();
+                
+        }
+        return $newName;
     }
     
 }

@@ -5,7 +5,7 @@ class M_village extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('M_villages','M_subcities','M_groupusers')); 
+        //$this->load->model(array('M_villages','M_subcities','M_groupusers')); 
         $this->paging->is_session_set();
     }
 
@@ -34,11 +34,7 @@ class M_village extends CI_Controller
         if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_village'],'Write'))
         {
             $model = $this->M_villages->new_object(); 
-            $modal_subcity = $this->M_subcities->get_list();
-            $data_modal = array(
-                'modal_subcity' => $modal_subcity
-            );
-            $data =  $this->paging->set_data_page_add($model,null, $data_modal);
+            $data =  $this->paging->set_data_page_add($model);
             load_view('m_village/add', $data);  
         }
         else
@@ -67,11 +63,7 @@ class M_village extends CI_Controller
         if($validate)
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
-            $modal_subcity = $this->M_subcities->get_list();
-            $data_modal = array(
-                'modal_subcity' => $modal_subcity
-            );
-            $data =  $this->paging->set_data_page_add($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_add($model);
             load_view('m_village/add', $data);   
         }
         else{
@@ -90,10 +82,7 @@ class M_village extends CI_Controller
         {
             $model = $this->M_villages->get($id);
             $modal_subcity = $this->M_subcities->get_list();
-            $data_modal = array(
-                'modal_subcity' => $modal_subcity
-            );
-            $data =  $this->paging->set_data_page_edit($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_edit($model);
             load_view('m_village/edit', $data);  
         }
         else
@@ -126,11 +115,7 @@ class M_village extends CI_Controller
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
 
-            $modal_subcity = $this->M_subcities->get_list();
-            $data_modal = array(
-                'modal_subcity' => $modal_subcity
-            );
-            $data =  $this->paging->set_data_page_edit($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_edit($model);
             load_view('m_village/edit', $data);   
         }
         else
@@ -159,7 +144,7 @@ class M_village extends CI_Controller
                 echo json_encode(delete_status($deletemsg));
             }
         } else {
-            echo json_encode(delete_status(FALSE, TRUE));
+            echo json_encode(delete_status("", FALSE, TRUE));
         }
     }
     

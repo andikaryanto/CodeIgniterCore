@@ -13,19 +13,29 @@ class Paging {
 
     public function get_form_name_id()
     {
-        $data["m_school"] = "m_schools";
-        $data["m_kelas"] = "m_clases";
         $data["m_groupuser"] = "m_groupusers";
         $data["m_user"] = "m_users";
-        $data["m_schoolyear"] = "m_schoolyears";
-        $data["m_mapel"] = "m_subjects";
         $data["m_worker"] = "m_workers";
-        $data["m_student"] = "m_students";
         $data["m_province"] = "m_provinces";
         $data["m_city"] = "m_cities";
         $data["m_subcity"] = "m_subcities";
         $data["m_village"] = "m_villages";
-        $data["m_school"] = "m_schools";
+        $data["m_people"] = "m_people";
+        $data["m_member"] = "m_members";
+        $data["m_instance"] = "m_instances";
+        $data["m_loan"] = "m_loans";
+        $data["t_submission"] = "t_submissions";
+        $data["m_chartofaccount"] = "m_chartofaccounts";
+        $data["t_submissionpayment"] = "t_submissionpayments";
+        $data["m_company"] = "m_companies";
+        $data["m_form"] = "m_forms";
+        $data["r_report"] = "r_reports";
+        return $data;
+    }
+
+    public function get_report_name_id()
+    {
+        $data["submissionpayment"] = "Submission Payment";
         return $data;
     }
     
@@ -42,10 +52,23 @@ class Paging {
     {
 
         $CI =& get_instance();
-        $CI->load->model(array("M_forms"));
+        //$CI->load->model(array("M_forms")); $CI =& get_instance();
+        $companyname = lang('ui_instancename');
+        $company = $CI->M_companies->get_list();
+        if($company){
+            $companyname = $company[0]->CompanyName;
+        }
+        $setupmenu = $CI->M_forms->get_data_by_classname("Setup");
         $mastermenu = $CI->M_forms->get_data_by_classname("Master");
+        $generalmenu = $CI->M_forms->get_data_by_classname("General");
+        $transactionmenu = $CI->M_forms->get_data_by_classname("Transaction");
 
+        
+        $data['companyname'] = $companyname;
+        $data['setupmenu'] = $setupmenu;
         $data['mastermenu'] = $mastermenu;
+        $data['generalmenu'] = $generalmenu;
+        $data['transactionmenu'] = $transactionmenu;
 
         //print_r($data['mastermenu']);
         // foreach($mastermenu as $menu){
@@ -53,6 +76,13 @@ class Paging {
         // }
         //print_r($_SESSION['usersettings']);
         $CI->load->view('template/header', $data); 
+    }
+
+    public function load_report_header()
+    {
+
+        $CI =& get_instance();
+        $CI->load->view('template/reportheader'); 
     }
 
     public function load_footer()

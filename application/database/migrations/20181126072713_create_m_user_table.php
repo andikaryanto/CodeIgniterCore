@@ -60,7 +60,7 @@ class Migration_create_m_user_table extends CI_Migration {
                 )
             ));
             $this->dbforge->add_key('Id', TRUE);
-            $this->dbforge->create_table('m_users');
+            $this->dbforge->create_table('m_users', TRUE);
             $this->db->query(add_foreign_key('m_users', 'M_Groupuser_Id', 'm_groupusers(Id)', 'RESTRICT', 'CASCADE'));
         }
     }

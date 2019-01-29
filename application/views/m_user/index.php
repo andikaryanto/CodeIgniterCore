@@ -36,7 +36,7 @@
                                   <th><?=  lang('ui_user')?></th>
                                   <th><?=  lang('ui_group_user')?></th>
                                   <th><?=  lang('ui_isactive')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                               </thead>
                               <tfoot class=" text-primary">
                                 <tr role = "row">
@@ -44,7 +44,7 @@
                                   <th><?=  lang('ui_user')?></th>
                                   <th><?=  lang('ui_group_user')?></th>
                                   <th><?=  lang('ui_isactive')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </tfoot>
                               <tbody>
@@ -69,7 +69,7 @@
                                     ?>
                                     
                                     <td class = "td-actions text-right">
-                                      <!-- <a href="#" rel="tooltip" title="<?=  lang('ui_edit')?>" class="btn btn-link btn-success btn-just-icon edit"><i class="material-icons">edit</i></a> -->
+                                      <a href="#" rel="tooltip" title="<?=  lang('ui_edit')?>" class="btn btn-link btn-success btn-just-icon edit"><i class="material-icons">edit</i></a>
                                       <?php $button_class = !$value->IsActive ? "btn btn-link btn-success btn-just-icon activate" : "btn btn-link btn-danger btn-just-icon" ?>
                                       <a href="#" rel="tooltip" title="<?= !$value->IsActive ? lang('ui_activate') : lang('ui_deactivate')?>" class="<?= $button_class?> activate"><i class="material-icons">power</i></a>
                                     </td>

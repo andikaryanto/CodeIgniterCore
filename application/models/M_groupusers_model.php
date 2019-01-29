@@ -4,7 +4,6 @@ class M_groupusers_model extends MY_Model {
 
     public function __construct(){
         parent::__construct();
-        $this->load->model(array("M_forms", "M_accessroles"));
     }
     
     public function delete_data($id)
@@ -91,6 +90,24 @@ class M_groupusers_model extends MY_Model {
         }
         return $permitted;
     }
+
+    public function is_reportpermitted($groupid = null, $report = null, $role = null)
+    {
+        $reportid = $report;
+        if(isset($report)){
+            $reports = $this->R_reports->get_data_by_name($report);
+            $reportid = $reports->Id;
+        }
+        
+        $permitted = false;
+        if($this->paging->is_superadmin($_SESSION['userdata']['Username'])
+            ||  $this->has_role($groupid,$reportid,$role)
+        )
+        {
+            $permitted = true;
+        }
+        return $permitted;
+    }
     
 }
 
@@ -100,11 +117,38 @@ class M_groupuser_object extends Model_object {
         $CI = get_instance();
         $CI->db->select('*');
         $CI->db->from('view_m_accessroles');
+        $CI->db->group_start();
         $CI->db->where('GroupId', $this->Id);
+        $CI->db->where_not_in('FormId', array('3','4','5','6','8'));
+        // $CI->db->where_not_in('ClassName', 'Report');
+        $CI->db->group_end();
         $CI->db->or_where('GroupId', null);
+        // $CI->db->where('ClassName !=', 'Report');
+        // $CI->db->group_start();
+        // $CI->db->group_end();
         $CI->db->order_by('ClassName', 'ASC');
         $CI->db->order_by('Header', 'DESC');
         $CI->db->order_by('FormName', 'ASC');
+        $query =$CI->db->get();
+        
+        return $query->result();
+    }
+
+    public function View_r_reportaccessrole(){
+        $CI = get_instance();
+        $CI->db->select('*');
+        $CI->db->from('view_r_reportaccessroles');
+        $CI->db->group_start();
+        $CI->db->where('GroupId', $this->Id);
+        // $CI->db->where('ClassName', 'Report');
+        $CI->db->group_end();
+        // $CI->db->or_where('GroupId', null);
+        // $CI->db->where('ClassName', 'Report');
+        // // $CI->db->group_start();
+        // // $CI->db->group_end();
+        // $CI->db->order_by('ClassName', 'ASC');
+        // $CI->db->order_by('Header', 'DESC');
+        // $CI->db->order_by('FormName', 'ASC');
         $query =$CI->db->get();
         
         return $query->result();

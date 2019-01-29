@@ -38,19 +38,9 @@
       <div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px; height: 626px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 317px;"></div></div> -->
     </div>
   </div>
-  <script src="<?= base_url('assets/material-dashboard/assets/js/core/popper.min.js');?>"></script>
-  <script src="<?= base_url('assets/material-dashboard/assets/js/core/bootstrap-material-design.min.js');?>"></script>
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js');?>"></script>
-  <!-- Plugin for the momentJs  -->
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/moment.min.js');?>"></script>
-  <!--  Plugin for Sweet Alert -->
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/sweetalert2.js');?>"></script>
-  <!-- Forms Validations Plugin -->
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/jquery.validate.min.js');?>"></script>
-  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/jquery.bootstrap-wizard.js');?>"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/bootstrap-selectpicker.js');?>"></script>
+  
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+    <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/jquery.mask.js');?>"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/bootstrap-datetimepicker.min.js');?>"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
@@ -58,8 +48,6 @@
   <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
   <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/bootstrap-tagsinput.js');?>"></script>
   
-  
-  <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/jasny-bootstrap.min.js');?>"></script>
   <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
   <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/jasny-bootstrap.min.js');?>"></script>
   <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
@@ -80,8 +68,8 @@
   <!--  Notifications Plugin    -->
   <!-- <script src="<?= base_url('assets/material-dashboard/assets/js/plugins/bootstrap-notify.js');?>"></script> -->
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <!-- script src="<?= base_url('assets/material-dashboard/assets/js/material-dashboard.min.js');?>"></script> -->
   <script src="<?= base_url('assets/material-dashboard/assets/js/material-dashboard.min.js');?>"></script>
+  <!-- <script src="<?= base_url('assets/material-dashboard/assets/js/material-dashboard.js');?>"></script> -->
   
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="<?= base_url('assets/material-dashboard/assets/demo/demo.js');?>"></script>
@@ -90,7 +78,6 @@
     $(document).ready(function() {
       $().ready(function() {
         $sidebar = $('.sidebar');
-
         $sidebar_img_container = $sidebar.find('.sidebar-background');
 
         $full_page = $('.full-page');
@@ -335,14 +322,14 @@
       function deleteData(name, callback){
       bootbox.confirm({
       //title: "Destroy planet?",
-      message: "<div class='text-center'><?= lang('ui_want_delete')?> " + name + " ?</div>",
+      message: "<div class='text-center'><?= lang('ui_want_delete')?> <b><text class = 'text-primary'>" + name + "</text></b> ?</div>",
         buttons: {
             cancel: {
                 className: 'btn btn-link',
                 label: "<?= lang('ui_cancel')?>"
             },
             confirm: {
-                className: 'btn btn-success btn-link',
+                className: 'btn btn-primary btn-link',
                 label: "<?= lang('ui_confirm')?>"
             }
         },
@@ -351,6 +338,107 @@
         }
       });
       }
+  </script>
+   <script>
+    $(document).ready(function() {
+      // initialise Datetimepicker and Sliders
+      md.initFormExtendedDatetimepickers("DD-MM-YYYY");
+      if ($('.slider').length != 0) {
+        md.initSliders();
+      }
+    });
+  </script>
+  <script>
+
+      $('.transnumberformat').inputmask({
+        mask: 'aaa/{YYYY}{MM}/9'
+      });
+  
+  
+    // $(document).ready(function() {
+    //   $('.date').mask('00/00/0000');
+    //   $('.time').mask('00:00:00');
+    //   $('.date_time').mask('00/00/0000 00:00:00');
+    //   $('.cep').mask('00000-000');
+    //   $('.membernumformat').mask('AAA/{YYYY}{MM}/0', {placeholder: "AAA/{YY}{MM}/0"});
+    //   $('.submissionnumformat').mask('AAA/{YYYY}{MM}/0', {placeholder: "AAA/{YY}{MM}/0"});
+    //   $('.phone').mask('0000-0000');
+    //   $('.phone_with_ddd').mask('(00) 0000-0000');
+    //   $('.phone_us').mask('(000) 000-0000');
+    //   $('.mixed').mask('AAA 000-S0S');
+    //   $('.cpf').mask('000.000.000-00', {reverse: true});
+    //   $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+      $('.money').mask('000.000.000.000.000,00', {reverse: true});
+      $('.money2').mask("#.##0,00", {reverse: true});
+    //   $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+    //     translation: {
+    //       'Z': {
+    //         pattern: /[0-9]/, optional: true
+    //       }
+    //     }
+    //   });
+    //   $('.ip_address').mask('099.099.099.099');
+      $('.percent').mask('##0,00 %', {reverse: true});
+    //   $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+    //   $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+    //   $('.fallback').mask("00r00r0000", {
+    //       translation: {
+    //         'r': {
+    //           pattern: /[\/]/,
+    //           fallback: '/'
+    //         },
+    //         placeholder: "__/__/____"
+    //       }
+    //     });
+    //   $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+    // });
+  </script>
+  <script>
+  Dropzone.autoDiscover = false;
+  function dropzoneUpload(id, url, paramName, maxfiles, acceptedfiles, buttonUpload = null, autoprocessqueue = false){
+    var mydropzone = $(id).dropzone({ 
+      url: url,
+      paramName: paramName,
+      maxFilesize: 1,
+      uploadMultiple: true,
+      maxFiles: maxfiles ,
+      parallelUploads: maxfiles,
+      acceptedFiles: acceptedfiles,
+      addRemoveLinks: true,
+      dictDefaultMessage: "<?= lang('ui_uploadhere')?>",
+      autoProcessQueue: autoprocessqueue,
+      init:function(){
+        myDropzone = this;
+
+        if(buttonUpload != null){
+          $(buttonUpload).on("click", function(e){
+            myDropzone.processQueue();
+          })
+        }
+      },
+      success:function(file, response){
+        console.log(response);
+
+      },
+      error: function (request, error) {
+        console.log(arguments);
+        alert(" Can't do because: " + error);
+      }
+    });
+
+    return mydropzone;
+  }
+  </script>
+  <script>
+  
+    $(document).ready(function() {
+      // Initialise the wizard
+      demo.initMaterialWizard();
+      setTimeout(function() {
+        $('.card.card-wizard').addClass('active');
+      }, 600);
+    });
+  
   </script>
 </body>
 

@@ -6,9 +6,7 @@ class M_groupuser extends CI_Controller
     {
         parent::__construct();
         //$this->load->database('naturedisaster', TRUE);
-        $this->load->model(array('M_groupusers','M_accessroles')); 
-        $this->load->library(array('paging', 'session','helpers'));
-        $this->load->helper('form');
+        //$this->load->model(array('M_groupusers','M_accessroles')); 
         $this->paging->is_session_set();
     }
 
@@ -127,11 +125,29 @@ class M_groupuser extends CI_Controller
         if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_groupuser'],'Write'))
         {
             $modelheader = $this->M_groupusers->get($groupid);
-            $modeldetail = $modelheader->View_m_accessrole();
+            //$modeldetail = $modelheader->View_m_accessrole();
 
-            $data =  $this->paging->set_data_page_index($modeldetail, null, null, null, $modelheader);
-            
+            //$data =  $this->paging->set_data_page_index($modeldetail, null, null, null, $modelheader);
+            $data['model'] = $modelheader;
             load_view('m_groupuser/roles', $data); 
+        }
+        else
+        {
+            $this->load->view('forbidden/forbidden');
+        } 
+    }
+
+    public function editreportrole($groupid)
+    {
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_groupuser'],'Write'))
+        {
+            $modelheader = $this->M_groupusers->get($groupid);
+            //$modeldetail = $modelheader->View_m_accessrole();
+
+            //$data =  $this->paging->set_data_page_index($modeldetail, null, null, null, $modelheader);
+            $data['model'] = $modelheader;
+            load_view('m_groupuser/reportRoles', $data); 
         }
         else
         {
@@ -194,7 +210,7 @@ class M_groupuser extends CI_Controller
                 echo json_encode(delete_status($deletemsg));
             }
         } else {
-            echo json_encode(delete_status(FALSE, TRUE));
+            echo json_encode(delete_status("", FALSE, TRUE));
         }
     }
 

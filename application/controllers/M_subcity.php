@@ -5,7 +5,7 @@ class M_subcity extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('M_subcities','M_cities','M_groupusers')); 
+        //$this->load->model(array('M_subcities','M_cities','M_groupusers')); 
         $this->paging->is_session_set();
     }
 
@@ -35,10 +35,8 @@ class M_subcity extends CI_Controller
         {
             $model = $this->M_subcities->new_object(); 
             $modal_city = $this->M_cities->get_list();
-            $data_modal = array(
-                'modal_city' => $modal_city
-            );
-            $data =  $this->paging->set_data_page_add($model,null, $data_modal);
+           
+            $data =  $this->paging->set_data_page_add($model);
             load_view('m_subcity/add', $data);  
         }
         else
@@ -67,11 +65,8 @@ class M_subcity extends CI_Controller
         if($validate)
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
-            $modal_city = $this->M_cities->get_list();
-            $data_modal = array(
-                'modal_city' => $modal_city
-            );
-            $data =  $this->paging->set_data_page_add($model, null, $data_modal);
+           
+            $data =  $this->paging->set_data_page_add($model);
             load_view('m_subcity/add', $data);   
         }
         else{
@@ -89,11 +84,8 @@ class M_subcity extends CI_Controller
         if($this->M_groupusers->is_permitted($_SESSION['userdata']['M_Groupuser_Id'],$form['m_subcity'],'Write'))
         {
             $model = $this->M_subcities->get($id);
-            $modal_city = $this->M_cities->get_list();
-            $data_modal = array(
-                'modal_city' => $modal_city
-            );
-            $data =  $this->paging->set_data_page_edit($model, null, $data_modal);
+           
+            $data =  $this->paging->set_data_page_edit($oldmodel);
             load_view('m_subcity/edit', $data);  
         }
         else
@@ -127,10 +119,7 @@ class M_subcity extends CI_Controller
             $this->session->set_flashdata('edit_warning_msg',$validate);
 
             $modal_city = $this->M_cities->get_list();
-            $data_modal = array(
-                'modal_city' => $modal_city
-            );
-            $data =  $this->paging->set_data_page_edit($model, null, $data_modal);
+            $data =  $this->paging->set_data_page_edit($model);
             load_view('m_subcity/edit', $data);   
         }
         else
@@ -159,7 +148,7 @@ class M_subcity extends CI_Controller
                 echo json_encode(delete_status($deletemsg));
             }
         } else {
-            echo json_encode(delete_status(FALSE, TRUE));
+            echo json_encode(delete_status("", FALSE, TRUE));
         }
     }
     

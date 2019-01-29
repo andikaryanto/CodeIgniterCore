@@ -40,7 +40,7 @@
                                   <th><?=  lang('ui_city')?></th>
                                   <th><?=  lang('ui_province')?></th>
                                   <th><?=  lang('ui_createat')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </thead>
                               <tfoot class=" text-primary">
@@ -51,7 +51,7 @@
                                   <th><?=  lang('ui_city')?></th>
                                   <th><?=  lang('ui_province')?></th>
                                   <th><?=  lang('ui_createat')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </tfoot>
                               <tbody>

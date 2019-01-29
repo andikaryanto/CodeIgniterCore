@@ -38,7 +38,7 @@
                                   <th><?=  lang('ui_name')?></th>
                                   <th><?=  lang('ui_description')?></th>
                                   <th><?=  lang('ui_createat')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </thead>
                               <tfoot class=" text-primary">
@@ -47,7 +47,7 @@
                                   <th><?=  lang('ui_name')?></th>
                                   <th><?=  lang('ui_description')?></th>
                                   <th><?=  lang('ui_createat')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </tfoot>
                               <tbody>
@@ -62,6 +62,7 @@
                                     <td class = "td-actions text-right">
                                       <a href="#" rel="tooltip" title="<?=  lang('ui_edit')?>" class="btn btn-link btn-primary btn-just-icon edit"><i class="material-icons">edit</i></a>
                                       <a href="#" rel="tooltip" title="<?=  lang('ui_role')?>" class="btn btn-link btn-primary btn-just-icon role"><i class="material-icons">face</i></a>
+                                      <a href="#" rel="tooltip" title="<?=  lang('ui_reportrole')?>" class="btn btn-link btn-primary btn-just-icon reportrole"><i class="material-icons">description</i></a>
                                       <a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn btn-link btn-danger btn-just-icon delete"><i class="material-icons">delete</i></a>
                                     </td>
                                   </tr>
@@ -157,6 +158,12 @@
         $tr = $(this).closest('tr');
         var id = $tr.attr('id');
         window.location = "<?= base_url('mgroupuser/editrole/');?>" + id;
+    });
+
+    table.on( 'click', '.reportrole', function () {
+        $tr = $(this).closest('tr');
+        var id = $tr.attr('id');
+        window.location = "<?= base_url('mgroupuser/editreportrole/');?>" + id;
     });
   }
 

@@ -52,7 +52,6 @@
             </div>
           </div>
         </div>
-      </section>
 
 <!-- modal -->
 <div id="modalGroupUser" tabindex="-1" role="dialog" aria-labelledby="groupUserModalLabel" aria-hidden="true" class="modal fade text-left">

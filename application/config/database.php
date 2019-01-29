@@ -70,11 +70,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'naturedisaster';
+$active_group = 'kospin';
 $query_builder = TRUE;
 
 if(ENVIRONMENT === 'production'){
-	$db['naturedisaster'] = array(
+	$db['naturekospindisaster'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
 		'username' => '',
@@ -98,12 +98,12 @@ if(ENVIRONMENT === 'production'){
 	);
 }
 else if(ENVIRONMENT === 'development'){
-	$db['naturedisaster'] = array(
+	$db['kospin'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
 		'username' => 'root',
 		'password' => '',
-		'database' => 'newschoolmanagement',
+		'database' => 'kospin',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,

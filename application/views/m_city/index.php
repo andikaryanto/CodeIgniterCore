@@ -26,6 +26,11 @@
                                   -->
                   </div>
                   <div class="material-datatables">
+                    <!-- <div>
+                      Toggle column: <a href="#" class="toggle-vis text-primary" data-column="0"><?=  lang('ui_city')?></a> - 
+                                      <a href="#" class="toggle-vis text-primary" data-column="1"><?=  lang('ui_province')?></a> - 
+                                      <a href="#" class="toggle-vis text-primary" data-column="2"><?=  lang('ui_createat')?></a>
+                    </div> -->
                     <div id = "datatables_wrapper" class = "dataTables_wrapper dt-bootstrap4">
                       <!-- <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatables_length"><label>Show <select name="datatables_length" aria-controls="datatables" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="datatables_filter" class="dataTables_filter"><label><span class="bmd-form-group bmd-form-group-sm"><input type="search" class="form-control form-control-sm" placeholder="Search records" aria-controls="datatables"></span></label></div></div></div> -->
                       <div class="row">
@@ -39,7 +44,7 @@
                                   <!-- <th><?=  lang('ui_description')?></th> -->
                                   <th><?=  lang('ui_province')?></th>
                                   <th><?=  lang('ui_createat')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </thead>
                               <tfoot class=" text-primary">
@@ -49,7 +54,7 @@
                                   <!-- <th><?=  lang('ui_description')?></th> -->
                                   <th><?=  lang('ui_province')?></th>
                                   <th><?=  lang('ui_createat')?></th>
-                                  <th class="disabled-sorting text-right">Actions</th>
+                                  <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                                 </tr>
                               </tfoot>
                               <tbody>
@@ -85,7 +90,6 @@
           </div>
         </div>
       </div>
-      </section>
 
 <script>
 
@@ -96,7 +100,7 @@
   });
 
   function dataTable(){
-    $('#tableProvince').DataTable({
+    var table =  $('#tableProvince').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       "order" : [[3, "desc"]],
@@ -106,8 +110,16 @@
       searchPlaceholder: "Search records",
       }
     }); 
-
-    var table = $('#tableProvince').DataTable();
+    
+    $('a.toggle-vis').on( 'click', function (e) {
+        e.preventDefault();
+ 
+        // Get the column API object
+        var column = table.column( $(this).attr('data-column') );
+ 
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
      // Edit record
      table.on( 'click', '.edit', function () {
         $tr = $(this).closest('tr');

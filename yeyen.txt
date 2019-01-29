@@ -1,0 +1,80 @@
+master coa
+	aktiva 1
+		kas 2
+			cash 3
+		bank 2
+			bank A 3
+			bank B 3
+		piutang 2
+			piutang dagang 3
+			piutang karyawan 3
+		persediaan 2
+			persedian A B C 3
+	pasiva 1
+		utang 2
+			aaaaa 3
+		modal 2
+			aaaaaa 3
+		
+master jenis pinjaman
+
+
+setting
+	perusahaan
+	default bannk 
+	coa
+	
+
+
+member
+1 Daftar => data peserta dan type : perorangan, instansi (ini ada nomor siup atau legalnya), nominal uang
+2 attach berkas 
+
+table pengajuan
+3. pengajuan nomor pengajuan , tglpngajuan, tgl verifikasi, tipe bunga (flat / menurun), 
+	plafon(duite),jangka waktu ,bunga ,status,  (new, diterima, ditolak)
+
+table agsuran uang
+
+	tab 1 => simulasi
+		idsimulasi, id pengajuan, tgl jatuh tempo, pokok, angsuranpokok, angsuran bunga, jmlangusran, baki debet, 
+		
+		flat bungan
+		angsuran pokok => plafon / jmlh bulan 
+		pokok selanjutnya => pokok - angsuran pokok
+		bunga => bunga % * pokok
+		baki debet = pokok selanjutnya
+		
+		menurun
+		bunga = pokok * bunga /100 / 12
+	
+pembayaran angsuran
+	id , nomorbayar , coalevel 3, angsuran ke, tgl bayar, pokok, bunga, denda, total
+	save, batal, cetak
+
+
+laporan 
+	summary pembayaran =? nomor pengajuan, nasabah, intsnasi, jenis pinjaman, tg realisasi, jtuh tempo selanjutnya, plafon, sisa pl0afon 	
+	detail per nasabah
+	laporan keungan
+	
+
+
+
+	
+	
+	
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
