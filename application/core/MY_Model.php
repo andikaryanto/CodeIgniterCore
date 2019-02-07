@@ -277,7 +277,10 @@ class MY_Model extends CI_Model {
 		$like = (isset($params['like']) ? $params['like'] : FALSE);				// use like operator if filter on string field
 		$joins = (isset($params['joins']) ? $params['joins'] : FALSE);			// define JOIN clauses array or array of arrays (table, cond, type)
 		$distinct = (isset($params['distinct']) ? $params['distinct'] : FALSE);	// make select DISTINCT
-		$where = (isset($params['where']) ? $params['where'] : FALSE);			// add custom WHERE string
+		$where_not_in = (isset($params['where_not_in']) ? $params['where_not_in'] : FALSE);			// add custom WHERE string
+		$where = (isset($params['where']) ? $params['where'] : FALSE);	
+		$wherestr = (isset($params['wherestr']) ? $params['wherestr'] : FALSE);
+		$order = (isset($params['order']) ? $params['order'] : FALSE);			// add custom WHERE string
 		
 		if ($this->_is_caching)
 			$this->db->stop_cache();
@@ -306,8 +309,20 @@ class MY_Model extends CI_Model {
 		if ($filter)
 			$this->db->where($filter);
 		
-		if ($where)
-			$this->db->where($where);
+		if ($where){
+			foreach($where as $key => $value){
+				$this->db->where($key, $value);
+			}
+		}
+
+		if ($where_not_in){
+			foreach($where_not_in as $key => $value){
+				$this->db->where_not_in($key, $value);
+			}
+		}
+
+		if ($wherestr)
+			$this->db->where($wherestr);
 		
 		/* @var $query CI_DB_result */
 		$query = $this->db->get();
