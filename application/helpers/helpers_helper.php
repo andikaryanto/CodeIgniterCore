@@ -3,11 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 function encryptMd5($string){
     $hash = md5($string);
-    $lastestString = substr($hash, strlen($hash) - 1,1);
-    $asci = ord($lastestString);
-    $asci++;
-    $newChar = chr($asci++);
-    $newString = substr($hash, 0,strlen($hash) - 1).$newChar;
+    $lastestString = substr($hash, strlen($hash) - 5, 5);
+    $newChar = strrev($lastestString);
+    $newString = substr($hash, 0,strlen($hash) - 5).$newChar;
     return $newString;
 }
 
