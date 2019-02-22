@@ -232,7 +232,11 @@ class MY_Model extends CI_Model {
 		/* @var $query CI_DB_result */
 		$query = $this->db->get();
 		$this->_reset_native_calls();
-		$rows = $query->result($this->row_type);
+		
+		if($query)
+			$rows = $query->result($this->row_type);
+		else 
+			$rows = array();
 		
 		if ($this->_is_caching)
 			$this->db->start_cache();
