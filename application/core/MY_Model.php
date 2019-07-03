@@ -15,6 +15,7 @@
 class MY_Model extends CI_Model {
 	
 	// table name and row object type
+	// public $db;
 	public $table = '';
 	public $row_type = '';
 	public $id_field = '';
@@ -33,9 +34,13 @@ class MY_Model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		
+		if(isset($_SESSION[get_variable().'database'])){
+			$this->load->database($_SESSION[get_variable().'database']);
+		} else {
+			$this->load->database();
+		}
+
 		//$this->load->helper('application');
-		$this->load->database();
 		$this->load->helper('date');
 		
 		if (!$this->table)
@@ -162,9 +167,10 @@ class MY_Model extends CI_Model {
 	public function get_list($filter = NULL, $order_by = NULL, $params = array())
 	{
 		// extra params
+		// echo json_encode($params);
 		$autojoin = (isset($params['autojoin']) ? $params['autojoin'] : $this->_call_autojoin || $this->_cache_call_autojoin);	// perform autojoin
 		$page = (isset($params['page']) ? $params['page'] : 0);					// current page
-		$pagesize = (isset($params['pagesize']) ? $params['pagesize'] : 0);		// page size
+		$pagesize = (isset($params['pagesize']) ? $params['pagesize'] : null);		// page size
 		$like = (isset($params['like']) ? $params['like'] : FALSE);				// use LIKE operator for filters on string field
 		$joins = (isset($params['joins']) ? $params['joins'] : FALSE);			// define JOIN clauses array or array of arrays (table, cond, type)
 		$distinct = (isset($params['distinct']) ? $params['distinct'] : FALSE);	// make select DISTINCT
@@ -224,23 +230,26 @@ class MY_Model extends CI_Model {
 			foreach($order as $key => $value){
 				$this->db->order_by($key, $value);
 			}
-		}
-		
-		if ($page > 0 && $pagesize > 0)
+		};
+  
+		if (!is_null($pagesize))
 			$this->db->limit($pagesize, $pagesize*($page-1));
+		
 		
 		/* @var $query CI_DB_result */
 		$query = $this->db->get();
+		// echo json_encode($query);
 		$this->_reset_native_calls();
-		
+
 		if($query)
 			$rows = $query->result($this->row_type);
 		else 
 			$rows = array();
-		
+
 		if ($this->_is_caching)
 			$this->db->start_cache();
 		
+			// echo json_encode($params);
 		return $rows;
 	}
 	
